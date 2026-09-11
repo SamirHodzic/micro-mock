@@ -1,0 +1,12 @@
+.vscode/**
+.vscode-test/**
+src/**
+test-fixtures/**
+node_modules/**
+!node_modules/jsonc-parser/**
+esbuild.js
+tsconfig.json
+.gitignore
+docs/**
+**/*.map
+**/*.ts

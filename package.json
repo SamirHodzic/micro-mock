@@ -1,0 +1,159 @@
+{
+  "name": "micro-mock",
+  "displayName": "Micro Mock",
+  "description": "Instant OpenAPI mock server with chaos testing (error injection + latency), right from VS Code.",
+  "version": "0.1.0",
+  "publisher": "samirhodzic",
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/SamirHodzic/micro-mock"
+  },
+  "icon": "media/icon.png",
+  "engines": {
+    "vscode": "^1.90.0",
+    "node": ">=20"
+  },
+  "categories": [
+    "Other",
+    "Testing"
+  ],
+  "keywords": [
+    "mock",
+    "micro mock",
+    "mock server",
+    "openapi",
+    "swagger",
+    "api testing",
+    "chaos engineering",
+    "chaos testing",
+    "rest client"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "microMock.startMockServer",
+        "title": "Micro Mock: Start Mock Server"
+      },
+      {
+        "command": "microMock.stopMockServer",
+        "title": "Micro Mock: Stop Mock Server"
+      },
+      {
+        "command": "microMock.addErrorCode",
+        "title": "Micro Mock: Add Error Code",
+        "icon": "$(add)"
+      },
+      {
+        "command": "microMock.removeErrorCode",
+        "title": "Micro Mock: Remove Error Code",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "microMock.setLatency",
+        "title": "Micro Mock: Set Latency"
+      },
+      {
+        "command": "microMock.clearRequestLog",
+        "title": "Micro Mock: Clear Request Log",
+        "icon": "$(clear-all)"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "microMock.startMockServer",
+          "when": "resourceExtname == .yaml || resourceExtname == .yml || resourceExtname == .json",
+          "group": "microMock"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "microMock.addErrorCode",
+          "when": "view == microMockView",
+          "group": "navigation"
+        },
+        {
+          "command": "microMock.clearRequestLog",
+          "when": "view == microMockView",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "microMock.removeErrorCode",
+          "when": "view == microMockView && viewItem == errorCode",
+          "group": "inline"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "microMock",
+          "title": "Micro Mock",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "microMock": [
+        {
+          "id": "microMockView",
+          "name": "Micro Mock",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Micro Mock",
+      "properties": {
+        "microMock.port": {
+          "type": "number",
+          "default": 4010,
+          "description": "Preferred local port for the mock server (falls back to the next free port if this one is taken)."
+        },
+        "microMock.errorCodes": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "number" },
+              "percent": { "type": "number" }
+            }
+          },
+          "description": "HTTP status codes to randomly simulate, each with its own independent percentage chance. Edit via the Micro Mock sidebar."
+        },
+        "microMock.latencyMs": {
+          "type": "number",
+          "default": 0,
+          "minimum": 0,
+          "maximum": 10000,
+          "description": "Artificial delay (ms) added to every mock response."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "package": "node esbuild.js --production",
+    "check-types": "tsc --noEmit -p ./",
+    "vscode:prepublish": "npm run check-types && npm run package"
+  },
+  "dependencies": {
+    "@stoplight/prism-core": "5.8.0",
+    "@stoplight/prism-http": "5.12.0",
+    "@stoplight/prism-http-server": "5.12.2",
+    "http-proxy": "^1.18.1"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.90.0",
+    "@types/node": "^20.14.0",
+    "@types/http-proxy": "^1.17.14",
+    "typescript": "^5.5.0",
+    "esbuild": "^0.21.0"
+  }
+}
