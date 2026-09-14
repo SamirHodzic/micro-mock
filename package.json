@@ -3,7 +3,7 @@
   "displayName": "Micro Mock",
   "description": "Instant OpenAPI mock server with chaos testing (error injection + latency), right from VS Code.",
   "version": "0.1.0",
-  "publisher": "samirhodzic",
+  "publisher": "SamirH",
   "license": "MIT",
   "repository": {
     "url": "https://github.com/SamirHodzic/micro-mock"
